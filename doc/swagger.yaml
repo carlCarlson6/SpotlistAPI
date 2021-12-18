@@ -1,0 +1,175 @@
+swagger: '2.0'
+info:
+  title: Spotlist
+  version: 1.0.0
+schemes:
+  - https
+paths:
+  /users/:userid/lists:
+    post:
+      summary: Adds a list to a given user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      security:
+        - basicPassword: [ ]
+      parameters:
+        - name: list
+          description: List of songs
+          required: true
+          in: body
+          schema:
+            type: object
+            properties:
+              songs:
+                type: array
+                items:
+                  $ref: '#/definitions/Song'
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/SongList'
+        '400':
+          description: Invalid parameters
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: User not found with this id (or user is not the one authenticated)
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Gets the lists of a given user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      security:
+        - basicPassword: [ ]
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SongList'
+        '400':
+          description: Invalid parameters
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: User not found with this id (or user is not the one authenticated)
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  /users/:userid/lists/:listid:
+    get:
+        summary: Get a specific list of a user
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        security:
+          - basicPassword: [ ]
+        responses:
+          '200':
+            description: Ok
+            schema:
+              $ref: '#/definitions/SongList'
+          '400':
+            description: Invalid parameters
+            schema:
+              $ref: '#/definitions/Error'
+          '401':
+            description: User not found with this id (or user is not the one authenticated)
+            schema:
+              $ref: '#/definitions/Error'
+          '500':
+            description: Internal Server Error.
+            schema:
+              $ref: '#/definitions/Error'
+  /users/:userid/lists/:listid/songs:
+    post:
+        summary: Add a song to a list
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        security:
+          - basicPassword: [ ]
+        parameters:
+        - name: song
+          description: List of songs
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/Song'
+        responses:
+          '200':
+            description: Ok
+            schema:
+              $ref: '#/definitions/Song'
+          '400':
+            description: Invalid parameters
+            schema:
+              $ref: '#/definitions/Error'
+          '401':
+            description: User not found with this id (or user is not the one authenticated)
+            schema:
+              $ref: '#/definitions/Error'
+          '500':
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/Error'
+definitions:
+  User:
+    type: object
+    required:
+      - id
+      - name
+      - password
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+  Song:
+    type: object
+    required:
+      - artist
+      - title
+    properties:
+      artist:
+        type: string
+      title:
+        type: string
+  SongList:
+    properties:
+      listId:
+        type: string
+      songs:
+        type: array
+        items:
+          $ref: '#/definitions/Song'
+    required:
+      - listId
+  Error:
+    properties:
+      message:
+        type: string
+
+components:
+  securitySchemes:
+    basicPassword:
+      type: http
+      scheme: basic
