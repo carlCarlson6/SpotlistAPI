@@ -168,8 +168,6 @@ definitions:
       message:
         type: string
 
-components:
-  securitySchemes:
-    basicPassword:
-      type: http
-      scheme: basic
+securityDefinitions:
+  basicPassword:
+    type: basic
