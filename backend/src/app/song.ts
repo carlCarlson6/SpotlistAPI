@@ -1,25 +1,25 @@
+import { type } from "os";
+import { Result } from "typescript-monads";
 import { Id } from "./id";
 
 export class Song {
     private constructor(
-        private _id: Id, 
-        private _artist: string,
-        private _title: string,
+        readonly id: SongId,
+        readonly artist: string,
+        readonly title: string,
     ) {}
 
-    get id(): string {
-        return this._id.toString();
-    }
+    static createNew(artist: string, title: string): Result<Song, Error[]> {
+        const errors = []
+        if (artist.length === 0)
+            errors.push(new Error("empty artist name"));
+        if (title.length === 0)
+            errors.push(new Error("empty song title"));
 
-    get artist(): string {
-        return this._artist;
-    }
-
-    get title(): string {
-        return this._title;
-    }
-
-    static createNew(artist: string, title: string): Song {
-        return new Song(Id.create(), artist, title);
+        return errors.length !== 0 
+            ? Result.ok(new Song(Id.createNew(), artist, title))
+            : Result.fail(errors);
     }
 }
+
+type SongId = Id;
