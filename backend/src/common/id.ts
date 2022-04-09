@@ -1,5 +1,6 @@
 import { Result } from "typescript-monads";
 import { v4 as uuidV4, validate as validateUuid } from "uuid";
+import { DomainError } from "./domain-error";
 
 export class Id {
     private constructor (
@@ -14,9 +15,21 @@ export class Id {
         return new Id(uuidV4());
     }
 
-    static create(value: string): Result<Id, Error> {
+    static create(value: string): Result<Id, DomainError> {
         return validateUuid(value)
             ? Result.ok(new Id(value))
-            : Result.fail(new Error("invalid uuid"))
+            : Result.fail(new InvalidUuid())
+    }
+}
+
+export class InvalidUuid extends DomainError {
+    get code(): number {
+        return 400;
+    }
+
+    constructor() {
+        super("invad uuid");
+        this.name = "invad uuid";
+        Object.setPrototypeOf(this, InvalidUuid.prototype);
     }
 }

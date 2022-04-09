@@ -1,30 +1,37 @@
 import { IRouter, Request, Response } from "express";
 import { Either, Result } from "typescript-monads";
 import { DomainError } from "../../common/domain-error";
+import { Id } from "../../common/id";
 import { promiseResultError } from "../../common/promise-result-error";
 import { ExpressEndpoint } from "../../infrastructure/express/express-endpoint";
 import { sendKoResponse, sendOkResponse } from "../../infrastructure/express/send-response";
 import { AddListToUserCommand, addPlaylistToUser } from "../add-playlist";
 import { Playlist } from "../playlist";
-import { FromPlaylist, SongList, Song as SongDto } from "./api-models";
+import { FromPlaylist, SongList, Song as SongDto, Songs as SongDtos } from "./api-models";
+
+type AddPlaylistRequest = Request<{userId: string}, {}, {songs: SongDtos}>;
+
+const BuildCommand = (request: AddPlaylistRequest): Result<AddListToUserCommand, DomainError> => 
+    Id.create(request.params.userId).map(id => ({
+        Owner: id,
+        Songs: request.body.songs,
+    }));
 
 export class AddPlaylistEnpoint implements ExpressEndpoint {
-    private readonly path = "/"; 
-
     constructor(
         private readonly router: IRouter
-    ) {}
+    ) { }
 
     declareEndpoint(): void {
-        this.router.post(this.path, this.excute);
+        this.router.post("/", this.excute);
     }
 
-    async excute(request: Request, response: Response): Promise<Response> {
-        const result = await this.buildCommand(request).match({
+    async excute(request: AddPlaylistRequest, response: Response): Promise<Response> {
+        const result = await BuildCommand(request).match({
             ok: addPlaylistToUser,
             fail: error => promiseResultError<Playlist>(error)
         });
-        
+
         return result.match<Either<SongList, DomainError>>({
             ok: playlist => new Either<SongList, DomainError>(FromPlaylist(playlist)),
             fail: error => new Either<SongList, DomainError>(undefined, error)
@@ -32,10 +39,5 @@ export class AddPlaylistEnpoint implements ExpressEndpoint {
             left: sendOkResponse(response),
             right: sendKoResponse(response)
         });
-    }
-    private buildCommand(request: Request): Result<AddListToUserCommand, DomainError> {
-        const songs = request.body.songs as SongDto
-
-        throw new Error("TODO - not implemented");
     }
 }

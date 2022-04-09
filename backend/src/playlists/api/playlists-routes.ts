@@ -2,35 +2,21 @@ import { IRouter, Request, Response, Router } from "express";
 import { ExpressEndpoints } from "../../infrastructure/express/express-endpoint";
 import { ExpressRouter } from "../../infrastructure/express/express-router";
 import { AddPlaylistEnpoint } from "./add-playlist-endpoint";
+import { GetPlaylistEndpoint } from "./get-playlist-endpoint";
+import { GetPlaylistsEndpoint } from "./get-playlists-endpoint";
 
 export class PlaylistRoutes implements ExpressRouter {
     router: IRouter = Router();
-    path: string = "api/users/:userid/lists";
+    path: string = "api/users/:userId/lists";
     
     endpoints: ExpressEndpoints = [
         new AddPlaylistEnpoint(this.router),
+        new GetPlaylistsEndpoint(this.router),
+        new GetPlaylistEndpoint(this.router),
     ];
 
     declareRoutes(): void {
         console.log("building routes");
         this.endpoints.map(endpoint => endpoint.declareEndpoint())
-
-        // TODO - move all as endpoint declaration
-        this.router.get("/", this.getLists);
-        this.router.get("/:listid", this.getList);
-        this.router.post("/:listid/songs", this.postSong);
-    }
-    
-    getLists(request: Request, response: Response): void {
-        throw new Error("Method not implemented.");
-    }
-
-    getList(request: Request, response: Response): void {
-        throw new Error("Method not implemented.");
-    }
-
-    postSong(request: Request, response: Response): void {
-        throw new Error("Method not implemented.");
     }
 }
-
