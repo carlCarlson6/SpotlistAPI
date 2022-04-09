@@ -1,14 +1,19 @@
 import 'reflect-metadata'
 import express, { Express } from 'express';
 import { healthCheckRoutes } from './health-check-routes';
+import { ExpressRouters } from './express-router';
+import { ExpressMiddleware, ExpressMiddlewares } from './express-middleware';
+import { ExpressConfiguration, ExpressConfigurationReader } from './express-config';
 
 export class ExpressServer {
     private app: Express = express()
-    private routes = [
-        healthCheckRoutes()
-    ]
 
-    configure(): ExpressServer {
+    constructor(
+        private readonly routers: ExpressRouters,
+        private readonly middlewares: ExpressMiddlewares,
+    ) { }
+
+    configure(config: ExpressConfiguration): ExpressServer {
         this.app.set('port', process.env.API_PORT || 4000);
         this.applyMiddleware();
         this.addRoutes();
@@ -16,7 +21,7 @@ export class ExpressServer {
     }
 
     private addRoutes() {
-        this.routes.forEach(router => {
+        this.routers.forEach(router => {
             router.declareRoutes();
             console.log(router.path);
             this.app.use(router.path, router.router);
@@ -24,7 +29,7 @@ export class ExpressServer {
     }
 
     private applyMiddleware() {
-        throw new Error('Method not implemented.');
+        this.middlewares.forEach(middleware => this.app.use(middleware));
     }
     
     start() {
@@ -36,4 +41,7 @@ export class ExpressServer {
     }
 }
 
-export const runServer = () => new ExpressServer().configure().start();
+export const runServer = (configReader: ExpressConfigurationReader, routes: ExpressRouters, middlewares: ExpressMiddleware[]) => 
+    new ExpressServer(routes, middlewares)
+        .configure(configReader())
+        .start();

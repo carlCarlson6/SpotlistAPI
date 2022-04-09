@@ -5,3 +5,5 @@ export interface ExpressRouter {
     path: string;
     declareRoutes(): void;
 }
+
+export type ExpressRouters = ExpressRouter[];

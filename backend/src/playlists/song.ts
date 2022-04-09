@@ -1,6 +1,7 @@
 import { Result } from "typescript-monads";
 import { Id } from "../common/id";
-import { SongId } from "./types";
+
+export type SongId = Id;
 
 export class Song {
     private constructor(
@@ -21,3 +22,5 @@ export class Song {
             : Result.fail(errors);
     }
 }
+
+export type Songs = Song[];
