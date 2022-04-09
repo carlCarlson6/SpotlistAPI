@@ -1,4 +1,4 @@
-import { Id } from "./id";
+import { Id } from "../../common/id";
 import { Song } from "./song";
 import { AddSongToPlayList, Owner, PlayListId } from "./types";
 

@@ -1,7 +1,7 @@
 import { IRouter, Request, Response, Router } from "express";
-import { ExpressRouter } from "./abstractions/express-router";
+import { ExpressRouter } from "../infrastructure/express/express-router";
 
-export class UserListsRoutes implements ExpressRouter {
+export class ListsRoutes implements ExpressRouter {
     router: IRouter = Router();
     path: string = "api/users/:userid/lists";
     

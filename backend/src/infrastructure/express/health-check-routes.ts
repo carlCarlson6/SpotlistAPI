@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { ExpressRouter } from "./abstractions/express-router";
+import { ExpressRouter } from "./express-router";
 
 export class HealthCheckRoutes implements ExpressRouter {
     public router = Router();

@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import express, { Express } from 'express';
-import { healthCheckRoutes } from './routes/health-check-routes';
+import { healthCheckRoutes } from './health-check-routes';
 
 export class ExpressServer {
     private app: Express = express()
