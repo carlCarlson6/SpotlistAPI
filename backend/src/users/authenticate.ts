@@ -1,7 +1,7 @@
 import { IMaybe } from "typescript-monads"
 import { Id } from "../common/id"
 import { getUser } from "./get-user"
-import { Password, validatePassword } from "./password"
+import { validatePassword } from "./password"
 import { User } from "./user"
 
 export interface AuthorizeInput {
@@ -12,15 +12,8 @@ export interface AuthorizeInput {
 
 export type Authenticate = (input: AuthorizeInput) => Promise<boolean>
 
-const validateUserCredentials = (user: User, input: AuthorizeInput): boolean => {
-    if (user.name !== input.UserName)
-        return false;
-
-    return Password.create(input.Password).match({
-        ok: inputPassword => validatePassword(inputPassword, user.password),
-        fail: _ => false
-    });
-}
+const validateUserCredentials = (user: User, input: AuthorizeInput): boolean => 
+    user.name === input.UserName && validatePassword(user.password, input.Password);
 
 const authenticateUser = async (promiseMaybeUser: Promise<IMaybe<User>>, input: AuthorizeInput): Promise<boolean> => {
     const maybeUser = await promiseMaybeUser;

@@ -1,3 +1,4 @@
+import { compare, compareSync, hash, hashSync } from "bcryptjs";
 import { Result } from "typescript-monads";
 import { DomainError } from "../common/domain-error";
 
@@ -11,15 +12,15 @@ export class Password {
     }
 
     static create(input: string): Result<Password, InvalidPasswordFormat> {
-        throw new Error("TODO - not implemented");
+        throw new Error("TODO - not implemented- validations");
+        return Result.ok(new Password(hashSync(input, 10)));
     }
 }
 
-export type ValidatePassword = (passwordA: Password, passwordB: Password) => boolean;
+export type ValidatePassword = (storedPassword: Password, inputPassword: string) => boolean;
 
-export const validatePassword: ValidatePassword = (passwordA: Password, passwordB: Password) => {
-    throw new Error("not implemented");
-}
+export const validatePassword: ValidatePassword = (storedPassword: Password, inputPassword: string) => 
+    compareSync(inputPassword, storedPassword.toString());
 
 class InvalidPasswordFormat extends DomainError {
     get code(): number {
