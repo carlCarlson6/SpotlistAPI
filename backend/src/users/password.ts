@@ -1,6 +1,8 @@
-import { compare, compareSync, hash, hashSync } from "bcryptjs";
-import { Result } from "typescript-monads";
-import { DomainError } from "../common/domain-error";
+import { compareSync, hashSync } from "bcryptjs";
+import { fail, ok, Result } from "typescript-monads";
+import { invalidPasswordFormat, InvalidPasswordFormat } from "./InvalidPasswordFormat";
+import { validatePasswordFormat } from "./validate-password-format";
+
 
 export class Password {
     private constructor(
@@ -12,8 +14,9 @@ export class Password {
     }
 
     static create(input: string): Result<Password, InvalidPasswordFormat> {
-        throw new Error("TODO - not implemented- validations");
-        return Result.ok(new Password(hashSync(input, 10)));
+        return validatePasswordFormat(input) 
+            ? ok(new Password(hashSync(input, 10)))
+            : fail(invalidPasswordFormat);
     }
 }
 
@@ -21,15 +24,3 @@ export type ValidatePassword = (storedPassword: Password, inputPassword: string)
 
 export const validatePassword: ValidatePassword = (storedPassword: Password, inputPassword: string) => 
     compareSync(inputPassword, storedPassword.toString());
-
-class InvalidPasswordFormat extends DomainError {
-    get code(): number {
-        return 401;
-    }
-
-    constructor() {
-        super("the password does not accomplish the minium requirements");
-        this.name = "invalid password format"
-        Object.setPrototypeOf(this, InvalidPasswordFormat.prototype);
-    }
-}
