@@ -1,5 +1,5 @@
 import { Id } from "../common/id";
-import { Password } from "./Password";
+import { Password } from "./password";
 
 export type UserId = Id;
 

@@ -11,6 +11,6 @@ export class GetPlaylistsEndpoint implements ExpressEndpoint {
     }
 
     execute(request: Request, response: Response): Promise<Response> {
-        throw new Error("Method not implemented.");
+        throw new Error("TODO - Method not implemented.");
     }
 }

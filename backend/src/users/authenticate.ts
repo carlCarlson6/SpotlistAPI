@@ -1,7 +1,7 @@
 import { IMaybe } from "typescript-monads"
 import { Id } from "../common/id"
 import { getUser } from "./get-user"
-import { Password, validatePassword } from "./Password"
+import { Password, validatePassword } from "./password"
 import { User } from "./user"
 
 export interface AuthorizeInput {
