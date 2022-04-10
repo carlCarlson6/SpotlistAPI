@@ -1,4 +1,5 @@
 import { Result } from "typescript-monads";
+import { DomainError } from "../common/domain-error";
 import { Id } from "../common/id";
 
 export type SongId = Id;
@@ -10,17 +11,29 @@ export class Song {
         readonly title: string,
     ) {}
 
-    static createNew(artist: string, title: string): Result<Song, Error[]> {
+    static createNew(artist: string, title: string): Result<Song, DomainError> {
         const errors = []
         if (artist.length === 0)
-            errors.push(new Error("empty artist name"));
+            errors.push("empty artist name");
         if (title.length === 0)
-            errors.push(new Error("empty song title"));
+            errors.push("empty song title");
 
         return errors.length !== 0 
             ? Result.ok(new Song(Id.createNew(), artist, title))
-            : Result.fail(errors);
+            : Result.fail(new InvalidSongInputError(errors.join(", ")));
     }
 }
 
 export type Songs = Song[];
+
+class InvalidSongInputError extends DomainError {
+    get code(): number {
+        return 400;
+    }
+
+    constructor(message: string) {
+        super(message);
+        this.name = "invalid song input"
+        Object.setPrototypeOf(this, InvalidSongInputError.prototype);
+    }
+}

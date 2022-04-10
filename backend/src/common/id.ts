@@ -4,7 +4,7 @@ import { DomainError } from "./domain-error";
 
 export class Id {
     private constructor (
-        private value: string
+        private readonly value: string
     ) {}
 
     toString(): string {

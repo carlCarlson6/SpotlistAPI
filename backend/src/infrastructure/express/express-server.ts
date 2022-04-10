@@ -1,6 +1,5 @@
 import 'reflect-metadata'
 import express, { Express } from 'express';
-import { healthCheckRoutes } from './health-check-routes';
 import { ExpressRouters } from './express-router';
 import { ExpressMiddleware, ExpressMiddlewares } from './express-middleware';
 import { ExpressConfiguration, ExpressConfigurationReader } from './express-config';
@@ -14,7 +13,7 @@ export class ExpressServer {
     ) { }
 
     configure(config: ExpressConfiguration): ExpressServer {
-        this.app.set('port', process.env.API_PORT || 4000);
+        this.app.set('port', config.ApiPort || 4000);
         this.applyMiddleware();
         this.addRoutes();
         return this;

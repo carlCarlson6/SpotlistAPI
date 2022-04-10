@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { ExpressRouter } from "./express-router";
 
-export class HealthCheckRoutes implements ExpressRouter {
+class HealthCheckRoutes implements ExpressRouter {
     public router = Router();
     public path = "/api/health";
 

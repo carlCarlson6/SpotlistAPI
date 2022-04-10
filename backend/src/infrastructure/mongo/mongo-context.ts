@@ -1,46 +1,29 @@
 import { Collection } from "mongodb";
-import { Result } from "typescript-monads";
+import { IMaybe, Maybe, Result } from "typescript-monads";
 import { DbError } from "../../common/db-error";
 import { DomainError } from "../../common/domain-error";
 import { StorePlaylist } from "../../playlists/add-playlist";
 import { Playlist } from "../../playlists/playlist";
-import { User } from "../../users/api-models";
-
-export interface PlaylistMongModel {
-    id: string
-    owner: string
-    songs: {
-        id: string
-        title: string
-        artist: string
-    }[]
-    createdAt: number
-}
+import { GetUser } from "../../users/get-user";
+import { User, UserId } from "../../users/user";
+import { DbModelToUser, PlaylistMongoModel, PlaylistToDbModel, UserMongoModel } from "./mongo-models";
 
 export interface MongoContext {
-    users: Collection<User> // TODO create new model
-    playlists: Collection<PlaylistMongModel>
+    users: Collection<UserMongoModel>
+    playlists: Collection<PlaylistMongoModel>
 }
 
-
-export const storePlaylist: StorePlaylist = (context: MongoContext) => async (playlist: Playlist): Promise<Result<Playlist, DomainError>> => {
-    const insertOneResult = await context.playlists.insertOne(toDbModel(playlist))
-    if (!insertOneResult.acknowledged) {
-        return Result.fail(new DbError("error while adding playlist"));
-    }
-
-    return Result.ok(playlist);
+export const mongoStorePlaylist = (contextPromise: Promise<MongoContext>): StorePlaylist => async (playlist: Playlist): Promise<Result<Playlist, DomainError>> => {
+    const constext = await contextPromise;
+    const insertOneResult = await constext.playlists.insertOne(PlaylistToDbModel(playlist))
+    
+    return insertOneResult.acknowledged
+        ? Result.ok(playlist)
+        : Result.fail(new DbError("error while adding playlist"));
 } 
 
-function toDbModel(playlist: Playlist): PlaylistMongModel {
-    return {
-        id: playlist.id.toString(),
-        owner: playlist.owner.toString(),
-        songs: playlist.songs.map(song => ({
-            id: song.id.toString(),
-            title: song.title,
-            artist: song.artist,
-        })),
-        createdAt: playlist.createdAt.getUTCDate()
-    };
-} 
+export const mongoGetUser = (contextPromise: Promise<MongoContext>): GetUser => async (userId: UserId): Promise<IMaybe<User>> => {
+    const context = await contextPromise;
+    const mongoUser = await context.users.findOne({ id: userId.toString() })
+    return !mongoUser? Maybe.none() : Maybe.some(DbModelToUser(mongoUser));
+}
