@@ -21,7 +21,7 @@ However, she has a clear vision on how the product should behave, so she provide
     * All endpoints have to be secured with Basic Auth (using name & password) 
 * You should ensure that the password is strong enough
 
-You can find the swagger documentation for the expected API on the [doc](./doc/swagger.yaml) folder.
+You can find the swagger documentation for the expected API on the [docs](./docs/swagger.yaml) folder.
 ## What are we looking for?
 
 * **A well-designed solution and architecture** Avoid duplication, extract re-usable code
