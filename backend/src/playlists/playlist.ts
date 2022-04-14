@@ -19,4 +19,8 @@ export class Playlist {
     static create(id: Id, owner: Owner, songs: Song[], createdAt: Date): Playlist {
         return new Playlist(id, owner, songs, createdAt);
     }
+
+    addSong(song: Song): Playlist {
+        throw new Error("TODO - not implemented");
+    }
 }

@@ -1,8 +1,9 @@
 import { IMaybe } from "typescript-monads";
-import { getContext } from "../infrastructure/mongo/mongo-connection";
-import { mongoGetUser } from "../infrastructure/mongo/mongo-context";
+import { findOneUser } from "../infrastructure/mongo/mongo-context";
 import { User, UserId } from "./user";
 
-export type GetUser = (id: UserId) => Promise<IMaybe<User>>
+export type GetUserById = (id: UserId) => Promise<IMaybe<User>>
+export type GetUserByName = (userName: string) => Promise<IMaybe<User>>
 
-export const getUser: GetUser = async (id: UserId) => mongoGetUser(getContext())(id);
+export const mongoGetUserById: GetUserById = (userId: UserId) => findOneUser({ id: userId.toString() });
+export const mongoGetUserByName: GetUserByName = (name: string) => findOneUser({ name });

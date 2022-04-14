@@ -1,8 +1,8 @@
 import { IMaybe } from "typescript-monads";
 import { Playlist, PlayListId } from "./playlist";
 
-export type GetPlaylist = (id: PlayListId) => Promise<IMaybe<Playlist>>
+export type GetPlaylistById = (id: PlayListId) => Promise<IMaybe<Playlist>>
 
-export const getPlaylist: GetPlaylist = (id: PlayListId) => {
+export const getPlaylistById: GetPlaylistById = (id: PlayListId) => {
     throw new Error("TOOD - not implemented");
 }
