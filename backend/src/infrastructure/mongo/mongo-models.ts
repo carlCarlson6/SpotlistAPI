@@ -31,7 +31,7 @@ export const playlistToDbModel = (playlist: Playlist) => ({
 });
 
 export const dbModelToPlaylist = (playlistDbMode: PlaylistMongoModel) => {
-    throw new Error("TOOD - not implemented");
+    throw new Error("TODO - not implemented");
 }
 
 export const userToDbModel = (user: User) => ({
@@ -42,5 +42,5 @@ export const userToDbModel = (user: User) => ({
 });
 
 export const dbModelToUser = (user: UserMongoModel) => {
-    throw new Error("TOOD - not implemented");
+    throw new Error("TODO - not implemented");
 }

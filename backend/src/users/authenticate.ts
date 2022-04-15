@@ -12,13 +12,13 @@ export interface AuthorizeInput {
 
 class UserNotFound extends DomainError {
     get code(): number {
-        throw new Error("Method not implemented.")
+        throw new Error("TODO - Method not implemented.")
     }
 }
 
 class Unauthorized extends DomainError {
     get code(): number {
-        throw new Error("Method not implemented.")
+        throw new Error("TODO - Method not implemented.")
     }
 }
 
