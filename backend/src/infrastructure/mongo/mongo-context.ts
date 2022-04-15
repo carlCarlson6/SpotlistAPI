@@ -2,7 +2,7 @@ import { Collection } from "mongodb";
 import { none, some } from "typescript-monads";
 import { User } from "../../users/user";
 import { MongoConnection } from "./mongo-connection";
-import { DbModelToUser, PlaylistMongoModel, UserMongoModel } from "./mongo-models";
+import { dbModelToUser, PlaylistMongoModel, UserMongoModel } from "./mongo-models";
 
 export interface MongoContext {
     users: Collection<UserMongoModel>
@@ -17,5 +17,5 @@ export const getContext = async (): Promise<MongoContext> => {
 export const findOneUser = async (finder: {}) => {
     const context = await getContext();
     const mongoUser = await context.users.findOne({ ...finder })
-    return !mongoUser? none<User>() : some<User>(DbModelToUser(mongoUser));
+    return !mongoUser? none<User>() : some<User>(dbModelToUser(mongoUser));
 }

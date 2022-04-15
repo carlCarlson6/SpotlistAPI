@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ExpressMiddleware } from "../../infrastructure/express/express-middleware";
-import { sendKoResponse } from "../../infrastructure/express/send-response";
+import { sendKoResponse } from "../../playlists/api/send-response";
 import { Authenticate } from "../authenticate";
 
 const getBasicAuthorizationHeaders = (request: Request): [string, string] =>  {

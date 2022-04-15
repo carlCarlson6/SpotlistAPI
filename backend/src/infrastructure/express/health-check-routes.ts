@@ -5,9 +5,10 @@ class HealthCheckRoutes implements ExpressRouter {
     public router = Router();
     public path = "/api/health";
 
-    declareRoutes(): void {
+    declareRoutes(): ExpressRouter {
         this.router.get("/", this.get);
         this.router.get("/:message", this.getMessage);
+        return this;
     }
 
     get(_: Request, response: Response): void {
@@ -19,4 +20,4 @@ class HealthCheckRoutes implements ExpressRouter {
     }
 }
 
-export const healthCheckRoutes = () => new HealthCheckRoutes();
+export const healthCheckRoutes = () => new HealthCheckRoutes().declareRoutes();

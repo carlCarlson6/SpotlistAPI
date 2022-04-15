@@ -21,6 +21,8 @@ export class Playlist {
     }
 
     addSong(song: Song): Playlist {
-        throw new Error("TODO - not implemented");
+        return Playlist.create(this.id, this.owner, [...this.songs, song], this.createdAt);
     }
 }
+
+export type Playlists = ReadonlyArray<Playlist>;

@@ -19,7 +19,7 @@ export interface UserMongoModel {
     createdAt: number
 }
 
-export const PlaylistToDbModel = (playlist: Playlist) => ({
+export const playlistToDbModel = (playlist: Playlist) => ({
     id: playlist.id.toString(),
     owner: playlist.owner.toString(),
     songs: playlist.songs.map(song => ({
@@ -30,17 +30,17 @@ export const PlaylistToDbModel = (playlist: Playlist) => ({
     createdAt: playlist.createdAt.getUTCDate()
 });
 
-export const DbModelToPlaylist = (playlistDbMode: PlaylistMongoModel) => {
+export const dbModelToPlaylist = (playlistDbMode: PlaylistMongoModel) => {
     throw new Error("TOOD - not implemented");
 }
 
-export const UserToDbModel = (user: User) => ({
+export const userToDbModel = (user: User) => ({
     id: user.id.toString(),
     name: user.name,
     hashedPassword: user.password.toString(),
     createdAt: user.createdAt.getUTCDate()
 });
 
-export const DbModelToUser = (user: UserMongoModel) => {
+export const dbModelToUser = (user: UserMongoModel) => {
     throw new Error("TOOD - not implemented");
 }
