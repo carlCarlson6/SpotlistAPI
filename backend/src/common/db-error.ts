@@ -1,9 +1,7 @@
 import { DomainError } from "./domain-error";
 
 export class DbError extends DomainError {
-    get code(): number {
-        return 500;
-    }
+    get code() { return 500; }
 
     constructor(message: string) {
         super(message);
