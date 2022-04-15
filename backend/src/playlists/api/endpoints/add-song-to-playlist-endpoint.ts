@@ -11,6 +11,7 @@ import { Playlist } from "../../playlist";
 import { mongoUpdatePlaylist } from "../../store-playlist";
 import { handleResultFromEndpoint } from "../handle-result-from-endpoint";
 import { SongDto } from "../models/song-dto";
+import { fromPlaylist } from "../models/songlist-dto";
 
 export class AddSongtoPlaylistEndpoint implements ExpressEndpoint {
     constructor(
@@ -38,7 +39,7 @@ const addSongtoPlaylistEndpoint = (addSongToPlaylist: AddSongToPlaylist): Endpoi
             ok: addSongToPlaylist,
             fail: error => promiseResultError<Playlist>(error)
         })
-        .then(result => handleResultFromEndpoint(response, result));
+        .then(result => handleResultFromEndpoint(response, result, fromPlaylist));
 
 const buildCommand = (request: AddSongToPlayListRequest): Result<AddSongToPlaylistCommand, DomainError> =>
     Id.create(request.params.listId).map(id => ({

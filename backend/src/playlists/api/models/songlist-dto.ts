@@ -6,7 +6,9 @@ export interface SongListDto {
     songs: SongsDtos
 }
 
-export function FromPlaylist(playlist: Playlist): SongListDto {
+export type SongListsDtos = ReadonlyArray<SongListDto>;
+
+export function fromPlaylist(playlist: Playlist): SongListDto {
     return {
         listId: playlist.id.toString(),
         songs: playlist.songs.map(FromDomainSong)

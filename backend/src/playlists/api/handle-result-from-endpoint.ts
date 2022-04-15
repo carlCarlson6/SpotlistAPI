@@ -2,15 +2,11 @@ import { Response } from "express";
 import { Either, Result } from "typescript-monads";
 import { DomainError } from "../../common/domain-error";
 import { left, right } from "../../common/either-utils";
-import { sendKoResponse, sendOkResponse } from "./send-response";
-import { Playlist } from "../playlist";
-import { FromPlaylist, SongListDto } from "./models/songlist-dto";
+import { matchSendOkOrKoResponse } from "./send-response";
 
-export const handleResultFromEndpoint = (response: Response, result: Result<Playlist, DomainError>) =>
-    result.match<Either<SongListDto, DomainError>>({
-        ok: playlist => left(FromPlaylist(playlist)),
+export const handleResultFromEndpoint = <T, U>(response: Response, result: Result<T, DomainError>, map: (t: T) => U) =>
+    result.match<Either<U, DomainError>>({
+        ok: t => left(map(t)),
         fail: right
     })
-    .match({
-        left: sendOkResponse(response),
-        right: sendKoResponse(response)});
+    .match(matchSendOkOrKoResponse(response));
