@@ -50,4 +50,4 @@ const buildCommand = (request: AddSongToPlayListRequest): Result<AddSongToPlayli
 const isCurrentUserOwner = (request: AddSongToPlayListRequest): ((command: AddSongToPlaylistCommand) => Result<AddSongToPlaylistCommand, DomainError>) =>  command => 
     Id.create(request.params.userId)
         .map(userId => userId.toString() === request.currentUser.id.toString())
-        .flatMap(isSameId => isSameId ? ok<AddSongToPlaylistCommand, DomainError>(command) : fail<AddSongToPlaylistCommand, DomainError>(new UnauthorizedOperation()));
+        .flatMap(isSameId => isSameId ? ok<AddSongToPlaylistCommand, DomainError>(command) : fail<AddSongToPlaylistCommand, DomainError>(new UnauthorizedOperation("")));

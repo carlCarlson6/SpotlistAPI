@@ -23,7 +23,7 @@ export class GetPlaylistsEndpoint implements ExpressEndpoint {
 }
 
 type GetPlaylistsRequest = Request<{userId: string}, {}, {}>;
-type Endpoint = (reques: GetPlaylistsRequest, response: Response) => Promise<Response>;
+type Endpoint = (request: GetPlaylistsRequest, response: Response) => Promise<Response>;
 
 const getPlaylistsEndpoint = (get: GetUserPlaylists): Endpoint => (request: GetPlaylistsRequest, response: Response) => 
     buildQuery(request)
@@ -40,4 +40,4 @@ const buildQuery = (request: GetPlaylistsRequest): Result<Owner, DomainError> =>
 const isCurrentUserOwner = (request: GetPlaylistsRequest): ((owner: Owner) => Result<Owner, DomainError>) => (owner: Owner) => 
         owner.toString() === request.currentUser.id.toString()
             ? ok(owner)
-            : fail(new UnauthorizedOperation());
+            : fail(new UnauthorizedOperation(""));

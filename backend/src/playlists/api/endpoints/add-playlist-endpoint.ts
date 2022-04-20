@@ -49,4 +49,4 @@ const buildCommand = (request: AddPlaylistRequest): Result<AddListToUserCommand,
     }));
 
 const isCurrentUserOwner = (request: AddPlaylistRequest): ((command: AddListToUserCommand) => Result<AddListToUserCommand, DomainError>) =>
-    command => command.Owner === request.currentUser.id ? ok(command) : fail(new UnauthorizedOperation())
+    command => command.Owner === request.currentUser.id ? ok(command) : fail(new UnauthorizedOperation(""))
