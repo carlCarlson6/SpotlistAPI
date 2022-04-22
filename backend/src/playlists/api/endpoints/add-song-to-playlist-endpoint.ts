@@ -4,30 +4,18 @@ import { DomainError } from "../../../common/domain-error";
 import { Id } from "../../../common/id";
 import { promiseResultError } from "../../../common/promise-result-error";
 import { UnauthorizedOperation } from "../../../common/unauthorized-operation";
-import { ExpressEndpoint } from "../../../infrastructure/express/express-endpoint";
-import { addSongToPlaylist, AddSongToPlaylist, AddSongToPlaylistCommand } from "../../add-song-to-playlist";
-import { getPlaylistById } from "../../get-playlist";
+import { ExpressEndpointDeclaration } from "../../../infrastructure/express/express-endpoint";
+import { AddSongToPlaylist, AddSongToPlaylistCommand } from "../../add-song-to-playlist";
 import { Playlist } from "../../playlist";
-import { mongoUpdatePlaylist } from "../../store-playlist";
 import { handleResultFromEndpoint } from "../handle-result-from-endpoint";
 import { SongDto } from "../models/song-dto";
 import { fromPlaylist } from "../models/songlist-dto";
 
-export class AddSongtoPlaylistEndpoint implements ExpressEndpoint {
-    constructor(
-        private readonly router: IRouter
-    ) { }
-    
-    declareEndpoint(): void {
-        this.router.post(
-            "/:listId/songs", 
-            addSongtoPlaylistEndpoint(addSongToPlaylist({
-                storePlaylist: mongoUpdatePlaylist,
-                getPlaylist: getPlaylistById
-            }))
-        );
-    }
-}
+export const declareAddSongToPlaylistEndpoint = (addSongToPlaylist: AddSongToPlaylist): ExpressEndpointDeclaration => 
+    (router: IRouter) => router.post(
+        "/:listId/songs",
+        addSongtoPlaylistEndpoint(addSongToPlaylist)
+    );
 
 type AddSongToPlayListRequest = Request<{userId: string, listId: string}, {}, SongDto>
 type Endpoint = (request: AddSongToPlayListRequest, response: Response) => Promise<Response>

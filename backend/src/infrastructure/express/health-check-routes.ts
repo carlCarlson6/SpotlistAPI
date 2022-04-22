@@ -1,23 +1,21 @@
-import { Request, Response, Router } from "express";
+import { Express, Request, Response, Router } from "express";
 import { ExpressRouter } from "./express-router";
 
-class HealthCheckRoutes implements ExpressRouter {
-    public router = Router();
-    public path = "/api/health";
+const getHealth = (_: Request, response: Response) => 
+    response
+        .status(200)
+        .send("hello world! :)");
 
-    declareRoutes(): ExpressRouter {
-        this.router.get("/", this.get);
-        this.router.get("/:message", this.getMessage);
-        return this;
-    }
+const getHealthWithMessage = (request: Request, response: Response) => 
+    response
+        .status(200)
+        .send(request.params.message);
 
-    get(_: Request, response: Response): void {
-        response.status(200).send("hello world! :)")
-    }
+export const healthCheckRoutes: ExpressRouter = (expressApp: Express) => {
+    const router = Router();
 
-    getMessage(request: Request, response: Response): void {
-        response.status(200).send(request.params.message)
-    }
-}
+    router.get("/", getHealth);
+    router.get("/:message", getHealthWithMessage);
 
-export const healthCheckRoutes = () => new HealthCheckRoutes().declareRoutes();
+    return expressApp.use("/api/health", router);
+};

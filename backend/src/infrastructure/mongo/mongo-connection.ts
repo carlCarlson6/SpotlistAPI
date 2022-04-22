@@ -1,6 +1,4 @@
-import { Container } from "inversify";
 import { MongoClient } from "mongodb";
-import { DiTypes } from "../di/di-types";
 import { MongoContext } from "./mongo-context";
 import { PlaylistMongoModel, UserMongoModel } from "./mongo-models";
 import { mongoSettings } from "./mongo-settings";
@@ -36,10 +34,3 @@ export const getContext = async (): Promise<MongoContext> => {
     const connection = await MongoConnection.getConnectionInstance();
     return connection.getContext();
 }
-
-export const addMongoContext = async (container: Container): Promise<Container> => {
-    const connection = await MongoConnection.getConnectionInstance();
-    const context = connection.getContext();
-    container.bind<MongoContext>(DiTypes.MongoContext).toConstantValue(context);
-    return container;
-} 

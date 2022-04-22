@@ -4,23 +4,17 @@ import { DomainError } from "../../../common/domain-error";
 import { Id } from "../../../common/id";
 import { promiseResultError } from "../../../common/promise-result-error";
 import { UnauthorizedOperation } from "../../../common/unauthorized-operation";
-import { ExpressEndpoint } from "../../../infrastructure/express/express-endpoint";
-import { getUserPlaylists, GetUserPlaylists } from "../../get-playlist";
+import { ExpressEndpointDeclaration } from "../../../infrastructure/express/express-endpoint";
 import { Owner, Playlists } from "../../playlist";
+import { GetUserPlaylists } from "../../get-playlist";
 import { handleResultFromEndpoint } from "../handle-result-from-endpoint";
 import { fromPlaylist } from "../models/songlist-dto";
 
-export class GetPlaylistsEndpoint implements ExpressEndpoint {
-    constructor(
-        private readonly router: IRouter
-    ) { }
-    
-    declareEndpoint(): void {
-        this.router.get(
-            "/", 
-            getPlaylistsEndpoint(getUserPlaylists));
-    }
-}
+export const declareGetPlaylistsEndpoint = (get: GetUserPlaylists): ExpressEndpointDeclaration =>
+    (router: IRouter) => router.get(
+        "/",
+        getPlaylistsEndpoint(get)  
+    );
 
 type GetPlaylistsRequest = Request<{userId: string}, {}, {}>;
 type Endpoint = (request: GetPlaylistsRequest, response: Response) => Promise<Response>;

@@ -1,9 +1,4 @@
-import { IRouter } from "express";
+import { Express } from "express";
 
-export interface ExpressRouter {
-    router: IRouter;
-    path: string;
-    declareRoutes(): ExpressRouter;
-}
-
+export type ExpressRouter = (expressApp: Express) => Express;
 export type ExpressRouters = ExpressRouter[];

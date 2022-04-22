@@ -1,9 +1,4 @@
-import { Response } from "express";
+import { Router } from "express";
 
-export interface ExpressEndpoint {
-    declareEndpoint(): void
-}
-
-export type ExpressEndpoints = ExpressEndpoint[];
-
-export type Endpoint = (request: Response, response: Response) => Promise<Response>;
+export type ExpressEndpointDeclaration = (router: Router) => void;
+export type ExpressEndpointDeclarations = ExpressEndpointDeclaration[];
