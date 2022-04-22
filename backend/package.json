@@ -7,7 +7,7 @@
     "dev": "ts-node-dev ./src/index.ts",
     "start": "node .",
     "build": "tsc",
-    "test": "jest --collectCoverage"
+    "test": "jest --collectCoverage --verbose"
   },
   "author": "",
   "license": "ISC",
@@ -31,13 +31,15 @@
     "@types/cors": "^2.8.12",
     "@types/cron": "^1.7.3",
     "@types/express": "^4.17.13",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.1",
     "@types/node": "^16.11.11",
     "@types/reflect-metadata": "^0.1.0",
+    "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.3",
-    "jest": "^27.4.3",
+    "jest": "^27.5.1",
     "moq.ts": "^7.3.4",
-    "ts-jest": "^27.0.7",
+    "supertest": "^6.2.2",
+    "ts-jest": "^27.1.4",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.2"
