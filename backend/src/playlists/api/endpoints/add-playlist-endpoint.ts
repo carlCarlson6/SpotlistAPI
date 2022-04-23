@@ -36,7 +36,7 @@ const addPlaylistEnpoint = (addPlaylistToUser: AddPlaylistToUser): Endpoint => (
         );
 
 const buildCommand = (request: AddPlaylistRequest): Result<AddListToUserCommand, DomainError> => 
-    Id.create(request.params.userId).map(id => ({
+    Id.parse(request.params.userId).map(id => ({
         Owner: id,
         Songs: request.body.songs,
     }));

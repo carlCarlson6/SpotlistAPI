@@ -32,7 +32,7 @@ export const getPlaylistsEndpoint = (get: GetUserPlaylists) => async (request: G
         .then(result => handleResultFromEndpoint(response, result, (playlists: Playlists) => playlists.map(fromPlaylist)));
 
 const buildQuery = (request: GetPlaylistsRequest): Result<Owner, DomainError> => 
-        Id.create(request.params.userId);
+        Id.parse(request.params.userId);
 
 const isCurrentUserOwner = (request: GetPlaylistsRequest): ((owner: Owner) => Result<Owner, DomainError>) => (owner: Owner) => 
         owner.toString() === request.currentUser.id.toString()

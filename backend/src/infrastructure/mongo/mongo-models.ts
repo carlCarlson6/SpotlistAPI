@@ -1,4 +1,6 @@
+import { Id } from "../../common/id"
 import { Playlist } from "../../playlists/playlist"
+import { Song } from "../../playlists/song"
 import { User } from "../../users/user"
 
 export interface PlaylistMongoModel {
@@ -27,12 +29,19 @@ export const playlistToDbModel = (playlist: Playlist) => ({
         title: song.title,
         artist: song.artist,
     })),
-    createdAt: playlist.createdAt.getUTCDate()
+    createdAt: playlist.createdAt.valueOf()
 });
 
-export const dbModelToPlaylist = (playlistDbMode: PlaylistMongoModel) => {
-    throw new Error("TODO - not implemented");
+export const dbModelToPlaylist = (dbModel: PlaylistMongoModel) => {
+    return Playlist.create(
+        Id.create(dbModel.id),
+        Id.create(dbModel.owner),
+        dbModel.songs.map(dbSong => Song.create(Id.create(dbSong.id), dbSong.artist, dbSong.title)),
+        millisecondsToDate(dbModel.createdAt)
+    );
 }
+
+const millisecondsToDate = (millisenconds: number) => new Date(millisenconds*1000);
 
 export const userToDbModel = (user: User) => ({
     id: user.id.toString(),

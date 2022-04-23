@@ -22,6 +22,10 @@ export class Song {
             ? Result.ok(new Song(Id.createNew(), artist, title))
             : Result.fail(new InvalidSongInputError(errors.join(", ")));
     }
+
+    static create(id: SongId, artist: string, title: string): Song {
+        return new Song(id, artist, title);
+    }
 }
 
 export type Songs = Song[];

@@ -34,9 +34,9 @@ const getPlaylistsEndpoint = (get: GetPlaylistById): Endpoint => (request: GetPl
         .then(result => handleResultFromEndpoint(response, result, fromPlaylist));
 
 const buildQuery = (request: GetPlaylistRequest): Result<GetPlaylistQuery, DomainError> => 
-    Id.create(request.params.userId)
+    Id.parse(request.params.userId)
         .map(userId => 
-            Id.create(request.params.listId)
+            Id.parse(request.params.listId)
                 .map(playlistId => 
                     ({
                         Owner: userId,

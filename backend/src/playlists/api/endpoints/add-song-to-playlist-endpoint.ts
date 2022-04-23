@@ -30,7 +30,7 @@ const addSongtoPlaylistEndpoint = (addSongToPlaylist: AddSongToPlaylist): Endpoi
         .then(result => handleResultFromEndpoint(response, result, fromPlaylist));
 
 const buildCommand = (request: AddSongToPlayListRequest): Result<AddSongToPlaylistCommand, DomainError> =>
-    Id.create(request.params.listId).map(id => ({
+    Id.parse(request.params.listId).map(id => ({
         Query: {
             PlaylistId: id,
             Owner: request.currentUser.id
@@ -39,6 +39,6 @@ const buildCommand = (request: AddSongToPlayListRequest): Result<AddSongToPlayli
     }));
 
 const isCurrentUserOwner = (request: AddSongToPlayListRequest): ((command: AddSongToPlaylistCommand) => Result<AddSongToPlaylistCommand, DomainError>) =>  command => 
-    Id.create(request.params.userId)
+    Id.parse(request.params.userId)
         .map(userId => userId.toString() === request.currentUser.id.toString())
         .flatMap(isSameId => isSameId ? ok(command) : fail(new UnauthorizedOperation()));

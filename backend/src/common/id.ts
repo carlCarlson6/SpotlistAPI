@@ -15,10 +15,14 @@ export class Id {
         return new Id(uuidV4());
     }
 
-    static create(value: string): Result<Id, DomainError> {
+    static parse(value: string): Result<Id, DomainError> {
         return validateUuid(value)
             ? Result.ok(new Id(value))
             : Result.fail(new InvalidUuid())
+    }
+
+    static create(value: string): Id {
+        return new Id(value);
     }
 }
 
