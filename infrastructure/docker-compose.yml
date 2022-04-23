@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+
+  spotlist.api:
+    image: ${DOCCKER_REGISTRY-}spotlistapi
+    build:
+      context: ../backend
+      dockerfile: ../backend/Dockerfile
+
+  spotlist.db:
+    image: mongo
+
+volumes: 
+  mongo_data:
