@@ -10,6 +10,9 @@ import { inMemoryAuthorizeMiddleware } from '../../helpers/inmemory-authorize-mi
 import { userCarlKarlson as user } from "../../helpers/test-users";
 
 describe("given API with in memory database", () => {
+
+    // TODO - create test when user has playlists
+
     describe("given authorized user without playlists", () => {
         const server = createServer(
             defaultExpressConfigurationReader,

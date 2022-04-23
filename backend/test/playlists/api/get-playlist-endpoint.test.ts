@@ -10,6 +10,7 @@ import supertest from 'supertest'
 import { buildAuthorizationHeader } from "../../helpers/build-authorization-header";
 import { Playlist } from "../../../src/playlists/playlist";
 import { Song } from "../../../src/playlists/song";
+import { loggerMiddleware } from "../../../src/infrastructure/express/request-logger-middleware";
 
 describe("given API with in memory database", () => {
     describe("given authorized user", () => {

@@ -31,7 +31,6 @@ const server = createServer(
     ], 
     [
         authorizeMiddleware(authenticate(mongoGetUserByName)),
-        loggerMiddleware,
     ]
 );
 
