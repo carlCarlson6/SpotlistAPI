@@ -5,6 +5,7 @@ import { Owner, Playlist, PlayListId, Playlists } from "./playlist";
 
 export type GetPlaylistById = (id: PlayListId) => Promise<IMaybe<Playlist>>
 export type GetUserPlaylists = (id: Owner) => Promise<Playlists>
+export type GetPlaylistQuery = { Owner: Owner, PlaylistId: PlayListId };
 
 export const getPlaylistById: GetPlaylistById = (id: PlayListId) =>
     getContext()

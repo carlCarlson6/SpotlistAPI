@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ExpressMiddleware } from "../../infrastructure/express/express-middleware";
 import { sendKoResponse } from "../../playlists/api/handle-result-from-endpoint";
 import { Authenticate } from "../authenticate";
+import { UnauthorizedUser } from "../unauthorized-user";
 
 const getBasicAuthorizationHeaders = (request: Request): [string, string] =>  {
 	const [userName, password] = Buffer.from((request.headers.authorization || '').split(' ')[1] || '', 'base64').toString().split(':');
@@ -17,6 +18,6 @@ export const authorizeMiddleware: (authenticate: Authenticate) => ExpressMiddlew
 			request.currentUser = user;
 			next();
 		},
-		fail: error => () => sendKoResponse(response)(error)
+		fail: _ => () => sendKoResponse(response)(new UnauthorizedUser())
 	})();
 }

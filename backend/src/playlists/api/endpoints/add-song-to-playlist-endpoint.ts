@@ -13,7 +13,7 @@ import { fromPlaylist } from "../models/songlist-dto";
 
 export const declareAddSongToPlaylistEndpoint = (addSongToPlaylist: AddSongToPlaylist): ExpressEndpointDeclaration => 
     (router: IRouter) => router.post(
-        "/:listId/songs",
+        "/:userId/lists/:listId/songs",
         addSongtoPlaylistEndpoint(addSongToPlaylist)
     );
 
@@ -31,11 +31,14 @@ const addSongtoPlaylistEndpoint = (addSongToPlaylist: AddSongToPlaylist): Endpoi
 
 const buildCommand = (request: AddSongToPlayListRequest): Result<AddSongToPlaylistCommand, DomainError> =>
     Id.create(request.params.listId).map(id => ({
-        ListId: id,
+        Query: {
+            PlaylistId: id,
+            Owner: request.currentUser.id
+        },
         Song: request.body,
     }));
 
 const isCurrentUserOwner = (request: AddSongToPlayListRequest): ((command: AddSongToPlaylistCommand) => Result<AddSongToPlaylistCommand, DomainError>) =>  command => 
     Id.create(request.params.userId)
         .map(userId => userId.toString() === request.currentUser.id.toString())
-        .flatMap(isSameId => isSameId ? ok<AddSongToPlaylistCommand, DomainError>(command) : fail<AddSongToPlaylistCommand, DomainError>(new UnauthorizedOperation("")));
+        .flatMap(isSameId => isSameId ? ok(command) : fail(new UnauthorizedOperation()));

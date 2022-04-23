@@ -13,7 +13,7 @@ import { fromPlaylist } from "../models/songlist-dto";
 export const declareGetPlaylistsEndpoint = (get: GetUserPlaylists): ExpressEndpointDeclaration =>
     (router: IRouter) => {
         router.get(
-            "/",
+            "/:userId/lists",
             getPlaylistsEndpoint(get)  
         );
         return router;
@@ -22,10 +22,7 @@ export const declareGetPlaylistsEndpoint = (get: GetUserPlaylists): ExpressEndpo
 type GetPlaylistsRequest = Request<{userId: string}, {}, {}>;
 type Endpoint = (request: GetPlaylistsRequest, response: Response) => void;
 
-export const getPlaylistsEndpoint = (get: GetUserPlaylists) => async (request: GetPlaylistsRequest, response: Response) => {
-    console.log('here endpoint');
-    console.log('request.params', request.params);
-    
+export const getPlaylistsEndpoint = (get: GetUserPlaylists) => async (request: GetPlaylistsRequest, response: Response) => 
     buildQuery(request)
         .flatMap(isCurrentUserOwner(request))
         .match({
@@ -33,11 +30,11 @@ export const getPlaylistsEndpoint = (get: GetUserPlaylists) => async (request: G
             fail: error => promiseResultError<Playlists>(error)
         })
         .then(result => handleResultFromEndpoint(response, result, (playlists: Playlists) => playlists.map(fromPlaylist)));
-}
+
 const buildQuery = (request: GetPlaylistsRequest): Result<Owner, DomainError> => 
         Id.create(request.params.userId);
 
 const isCurrentUserOwner = (request: GetPlaylistsRequest): ((owner: Owner) => Result<Owner, DomainError>) => (owner: Owner) => 
         owner.toString() === request.currentUser.id.toString()
             ? ok(owner)
-            : fail(new UnauthorizedOperation(""));
+            : fail(new UnauthorizedOperation());

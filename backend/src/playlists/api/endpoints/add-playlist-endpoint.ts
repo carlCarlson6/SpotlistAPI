@@ -13,7 +13,7 @@ import { fromPlaylist } from "../models/songlist-dto";
 
 export const declareAddPlaylistEndpoint = (addPlaylistToUser: AddPlaylistToUser): ExpressEndpointDeclaration =>
     (router: IRouter) => router.post(
-        "/", 
+        "/:userId/lists", 
         addPlaylistEnpoint(addPlaylistToUser)
     );
 
@@ -42,4 +42,4 @@ const buildCommand = (request: AddPlaylistRequest): Result<AddListToUserCommand,
     }));
 
 const isCurrentUserOwner = (request: AddPlaylistRequest): ((command: AddListToUserCommand) => Result<AddListToUserCommand, DomainError>) =>
-    command => command.Owner === request.currentUser.id ? ok(command) : fail(new UnauthorizedOperation(""))
+    command => command.Owner === request.currentUser.id ? ok(command) : fail(new UnauthorizedOperation())
