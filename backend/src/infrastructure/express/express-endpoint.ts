@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { IRouter, Router } from "express";
 
-export type ExpressEndpointDeclaration = (router: Router) => void;
+export type ExpressEndpointDeclaration = (router: IRouter) => IRouter;
 export type ExpressEndpointDeclarations = ExpressEndpointDeclaration[];

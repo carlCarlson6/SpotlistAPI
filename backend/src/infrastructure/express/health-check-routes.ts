@@ -1,6 +1,8 @@
 import { Express, Request, Response, Router } from "express";
 import { ExpressRouter } from "./express-router";
 
+const healthUri = "/api/health";
+
 const getHealth = (_: Request, response: Response) => 
     response
         .status(200)
@@ -17,5 +19,5 @@ export const healthCheckRoutes: ExpressRouter = (expressApp: Express) => {
     router.get("/", getHealth);
     router.get("/:message", getHealthWithMessage);
 
-    return expressApp.use("/api/health", router);
+    return expressApp.use(healthUri, router);
 };

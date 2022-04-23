@@ -11,15 +11,21 @@ import { handleResultFromEndpoint } from "../handle-result-from-endpoint";
 import { fromPlaylist } from "../models/songlist-dto";
 
 export const declareGetPlaylistsEndpoint = (get: GetUserPlaylists): ExpressEndpointDeclaration =>
-    (router: IRouter) => router.get(
-        "/",
-        getPlaylistsEndpoint(get)  
-    );
+    (router: IRouter) => {
+        router.get(
+            "/",
+            getPlaylistsEndpoint(get)  
+        );
+        return router;
+    }
 
 type GetPlaylistsRequest = Request<{userId: string}, {}, {}>;
-type Endpoint = (request: GetPlaylistsRequest, response: Response) => Promise<Response>;
+type Endpoint = (request: GetPlaylistsRequest, response: Response) => void;
 
-const getPlaylistsEndpoint = (get: GetUserPlaylists): Endpoint => (request: GetPlaylistsRequest, response: Response) => 
+export const getPlaylistsEndpoint = (get: GetUserPlaylists) => async (request: GetPlaylistsRequest, response: Response) => {
+    console.log('here endpoint');
+    console.log('request.params', request.params);
+    
     buildQuery(request)
         .flatMap(isCurrentUserOwner(request))
         .match({
@@ -27,7 +33,7 @@ const getPlaylistsEndpoint = (get: GetUserPlaylists): Endpoint => (request: GetP
             fail: error => promiseResultError<Playlists>(error)
         })
         .then(result => handleResultFromEndpoint(response, result, (playlists: Playlists) => playlists.map(fromPlaylist)));
-
+}
 const buildQuery = (request: GetPlaylistsRequest): Result<Owner, DomainError> => 
         Id.create(request.params.userId);
 

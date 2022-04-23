@@ -1,4 +1,4 @@
-import { ok, Result } from "typescript-monads"
+import { fail, ok, Result } from "typescript-monads"
 import { DomainError } from "../common/domain-error"
 import { GetUserByName } from "./get-user"
 import { validatePassword } from "./password"

@@ -1,4 +1,3 @@
-
 import request from 'supertest'
 import { Express } from 'express';
 import { createServer } from '../../../src/infrastructure/express/run-express-server';
@@ -17,7 +16,7 @@ describe("GET /api/health", () => {
         );
     });
 
-    it("should retun 200 & 'hello world' message", done => {
+    it("should retun 200OK & 'hello world' message", done => {
         request(server)
             .get("/api/health")
             .expect(200)
@@ -28,7 +27,7 @@ describe("GET /api/health", () => {
             });
     });
 
-    it("given message parameter should retun 200 & the same message back", done => {
+    it("given message parameter should retun 200OK & the same message back", done => {
         const message = "hello world my good friend! :)";
         request(server)
             .get(`/api/health/${message}`)
@@ -36,7 +35,7 @@ describe("GET /api/health", () => {
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.text).toBe(message);
-                done()
+                return done()
             });
     });
 });

@@ -19,6 +19,4 @@ export const authorizeMiddleware: (authenticate: Authenticate) => ExpressMiddlew
 		},
 		fail: error => () => sendKoResponse(response)(error)
 	})();
-	
-	return Promise.resolve();
 }
