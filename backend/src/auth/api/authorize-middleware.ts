@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ExpressMiddleware } from "../../infrastructure/express/express-middleware";
-import { sendKoResponse } from "../../playlists/api/handle-result-from-endpoint";
+import { sendKoResponse } from "../../playlists/api/endpoints/handle-result-from-endpoint";
 import { Authenticate } from "../authenticate";
 import { UnauthorizedUser } from "../unauthorized-user";
 

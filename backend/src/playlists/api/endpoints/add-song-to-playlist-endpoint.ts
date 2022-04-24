@@ -7,7 +7,7 @@ import { UnauthorizedOperation } from "../../../common/unauthorized-operation";
 import { ExpressEndpointDeclaration } from "../../../infrastructure/express/express-endpoint";
 import { AddSongToPlaylist, AddSongToPlaylistCommand } from "../../add-song-to-playlist";
 import { Playlist } from "../../playlist";
-import { handleResultFromEndpoint } from "../handle-result-from-endpoint";
+import { handleResultFromEndpoint } from "./handle-result-from-endpoint";
 import { SongDto } from "../models/song-dto";
 import { fromPlaylist } from "../models/songlist-dto";
 

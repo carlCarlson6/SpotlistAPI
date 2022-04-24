@@ -1,10 +1,10 @@
 import { none, some } from "typescript-monads";
-import { ExpressMiddleware } from "../../src/infrastructure/express/express-middleware";
-import { authorizeMiddleware } from "../../src/users/api/authorize-middleware";
-import { authenticate } from "../../src/users/authenticate";
-import { GetUserByName } from "../../src/users/get-user";
-import { Password } from "../../src/users/password";
-import { User } from "../../src/users/user";
+import { ExpressMiddleware } from "../../../src/infrastructure/express/express-middleware";
+import { authorizeMiddleware } from "../../../src/auth/api/authorize-middleware";
+import { authenticate } from "../../../src/auth/authenticate";
+import { GetUserByName } from "../../../src/auth/get-user";
+import { Password } from "../../../src/auth/password";
+import { User } from "../../../src/auth/user";
 import { testUsers } from "./test-users";
 
 const inMemoryGetUserByName: GetUserByName = (userName: string) => {

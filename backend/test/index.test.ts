@@ -1,1 +1,1 @@
-test("tests works", () => {});
+test("test framework works :D", () => {});

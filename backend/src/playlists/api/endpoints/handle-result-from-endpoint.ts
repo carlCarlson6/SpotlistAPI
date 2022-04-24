@@ -1,8 +1,8 @@
 import { Response } from "express";
 import { Either, Result } from "typescript-monads";
-import { DomainError } from "../../common/domain-error";
-import { left, right } from "../../common/either-utils";
-import { fromDomainError } from "../../infrastructure/express/api-error";
+import { DomainError } from "../../../common/domain-error";
+import { left, right } from "../../../common/either-utils";
+import { fromDomainError } from "../../../infrastructure/express/api-error";
 
 export const handleResultFromEndpoint = <T, U>(response: Response, result: Result<T, DomainError>, map: (t: T) => U) =>
     result.match<Either<U, DomainError>>({

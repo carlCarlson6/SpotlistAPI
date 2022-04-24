@@ -1,8 +1,8 @@
 import request from 'supertest'
 import { Express } from 'express';
-import { createServer } from '../../../src/infrastructure/express/run-express-server';
-import { healthCheckRoutes } from '../../../src/infrastructure/express/health-check-routes';
-import { loggerMiddleware } from '../../../src/infrastructure/express/request-logger-middleware';
+import { createServer } from '../../../../src/infrastructure/express/run-express-server';
+import { healthCheckRoutes } from '../../../../src/infrastructure/express/health-check-routes';
+import { loggerMiddleware } from '../../../../src/infrastructure/express/request-logger-middleware';
 import { defaultExpressConfigurationReader } from '../../helpers/default-express-configuration-reader';
 
 describe("GET /api/health", () => {

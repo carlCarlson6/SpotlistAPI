@@ -1,7 +1,7 @@
 import { Id } from "../../common/id"
 import { Playlist } from "../../playlists/playlist"
 import { Song } from "../../playlists/song"
-import { User } from "../../users/user"
+import { User } from "../../auth/user"
 
 export interface PlaylistMongoModel {
     id: string

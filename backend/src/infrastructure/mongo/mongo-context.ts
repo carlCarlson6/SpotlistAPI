@@ -1,6 +1,6 @@
 import { Collection } from "mongodb";
 import { none, some } from "typescript-monads";
-import { User } from "../../users/user";
+import { User } from "../../auth/user";
 import { MongoConnection } from "./mongo-connection";
 import { dbModelToUser, PlaylistMongoModel, UserMongoModel } from "./mongo-models";
 

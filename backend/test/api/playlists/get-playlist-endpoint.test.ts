@@ -3,11 +3,11 @@ import { Id } from "../../../src/common/id";
 import { createServer } from "../../../src/infrastructure/express/run-express-server";
 import { declareGetPlaylistEndpoint } from "../../../src/playlists/api/endpoints/get-playlist-endpoint";
 import { playlistRoutes } from "../../../src/playlists/api/playlists-routes";
-import { defaultExpressConfigurationReader } from "../../helpers/default-express-configuration-reader";
-import { inMemoryAuthorizeMiddleware } from "../../helpers/inmemory-authorize-middleware";
-import { userCarlKarlson as user } from "../../helpers/test-users";
+import { defaultExpressConfigurationReader } from "../helpers/default-express-configuration-reader";
+import { inMemoryAuthorizeMiddleware } from "../helpers/inmemory-authorize-middleware";
+import { userCarlKarlson as user } from "../helpers/test-users";
 import supertest from 'supertest'
-import { buildAuthorizationHeader } from "../../helpers/build-authorization-header";
+import { buildAuthorizationHeader } from "../helpers/build-authorization-header";
 import { Playlist } from "../../../src/playlists/playlist";
 import { Song } from "../../../src/playlists/song";
 import { loggerMiddleware } from "../../../src/infrastructure/express/request-logger-middleware";

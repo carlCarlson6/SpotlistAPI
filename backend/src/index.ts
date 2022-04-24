@@ -3,9 +3,9 @@ import { createServer, runServer } from "./infrastructure/express/run-express-se
 import { healthCheckRoutes } from "./infrastructure/express/health-check-routes";
 import { loggerMiddleware } from "./infrastructure/express/request-logger-middleware";
 import { playlistRoutes } from "./playlists/api/playlists-routes";
-import { authorizeMiddleware } from "./users/api/authorize-middleware";
-import { authenticate } from "./users/authenticate";
-import { mongoGetUserByName } from "./users/get-user";
+import { authorizeMiddleware } from "./auth/api/authorize-middleware";
+import { authenticate } from "./auth/authenticate";
+import { mongoGetUserByName } from "./auth/get-user";
 import { declareAddPlaylistEndpoint } from "./playlists/api/endpoints/add-playlist-endpoint";
 import { addPlaylistToUser } from "./playlists/add-playlist";
 import { mongoStoreNewPlaylist, mongoUpdatePlaylist } from "./playlists/store-playlist";

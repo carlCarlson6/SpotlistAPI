@@ -7,7 +7,7 @@ import { UnauthorizedOperation } from "../../../common/unauthorized-operation";
 import { ExpressEndpointDeclaration } from "../../../infrastructure/express/express-endpoint";
 import { Owner, Playlists } from "../../playlist";
 import { GetUserPlaylists } from "../../get-playlist";
-import { handleResultFromEndpoint } from "../handle-result-from-endpoint";
+import { handleResultFromEndpoint } from "./handle-result-from-endpoint";
 import { fromPlaylist } from "../models/songlist-dto";
 
 export const declareGetPlaylistsEndpoint = (get: GetUserPlaylists): ExpressEndpointDeclaration =>

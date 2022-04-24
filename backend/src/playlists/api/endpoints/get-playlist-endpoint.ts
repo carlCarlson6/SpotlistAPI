@@ -8,7 +8,7 @@ import { ExpressEndpointDeclaration } from "../../../infrastructure/express/expr
 import { GetPlaylistById, GetPlaylistQuery } from "../../get-playlist";
 import { isPlaylistOwnedByUser, playlistNotFoundFail } from "../../is-playlist-owned-by-user";
 import { Playlist } from "../../playlist";
-import { handleResultFromEndpoint } from "../handle-result-from-endpoint";
+import { handleResultFromEndpoint } from "./handle-result-from-endpoint";
 import { fromPlaylist } from "../models/songlist-dto";
 
 export const declareGetPlaylistEndpoint = (get: GetPlaylistById): ExpressEndpointDeclaration => 

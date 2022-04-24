@@ -1,4 +1,4 @@
-import { Id } from "../../src/common/id";
+import { Id } from "../../../src/common/id";
 
 export const wrongUser = {
     id: Id.createNew(),
