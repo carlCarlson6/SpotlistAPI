@@ -1,3 +1,4 @@
+import supertest from 'supertest'
 import { none, some } from "typescript-monads";
 import { Id } from "../../../src/common/id";
 import { createServer } from "../../../src/infrastructure/express/run-express-server";
@@ -6,7 +7,6 @@ import { playlistRoutes } from "../../../src/playlists/api/playlists-routes";
 import { defaultExpressConfigurationReader } from "../helpers/default-express-configuration-reader";
 import { inMemoryAuthorizeMiddleware } from "../helpers/inmemory-authorize-middleware";
 import { userCarlKarlson as user } from "../helpers/test-users";
-import supertest from 'supertest'
 import { buildAuthorizationHeader } from "../helpers/build-authorization-header";
 import { Playlist } from "../../../src/playlists/playlist";
 import { Song } from "../../../src/playlists/song";
@@ -97,11 +97,7 @@ describe("given API with in memory database", () => {
     });
 
     describe("given unauthorized user", () => {
-        const server = createServer(
-            defaultExpressConfigurationReader,
-            [],
-            [ inMemoryAuthorizeMiddleware ]
-        );
+        const server = createServer(defaultExpressConfigurationReader, [], [inMemoryAuthorizeMiddleware]);
 
         it("with wrong password when GET /api/users/:userId/lists/:listId then returns 401 UnauthorizedUser", done => {
             supertest(server)
