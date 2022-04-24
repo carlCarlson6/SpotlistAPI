@@ -20,7 +20,7 @@ export const declareAddPlaylistEndpoint = (addPlaylistToUser: AddPlaylistToUser)
 type AddPlaylistRequest = Request<{userId: string}, {}, {songs: SongsDtos}>;
 type Endpoint = (request: AddPlaylistRequest, response: Response) => Promise<Response>;
 
-const addPlaylistEnpoint = (addPlaylistToUser: AddPlaylistToUser): Endpoint => (request: AddPlaylistRequest, response: Response) => 
+const addPlaylistEnpoint = (addPlaylistToUser: AddPlaylistToUser): Endpoint => (request: AddPlaylistRequest, response: Response) =>
     buildCommand(request)
         .flatMap(isCurrentUserOwner(request))
         .match({
@@ -35,6 +35,7 @@ const addPlaylistEnpoint = (addPlaylistToUser: AddPlaylistToUser): Endpoint => (
             )
         );
 
+
 const buildCommand = (request: AddPlaylistRequest): Result<AddListToUserCommand, DomainError> => 
     Id.parse(request.params.userId).map(id => ({
         Owner: id,
@@ -42,4 +43,4 @@ const buildCommand = (request: AddPlaylistRequest): Result<AddListToUserCommand,
     }));
 
 const isCurrentUserOwner = (request: AddPlaylistRequest): ((command: AddListToUserCommand) => Result<AddListToUserCommand, DomainError>) =>
-    command => command.Owner === request.currentUser.id ? ok(command) : fail(new UnauthorizedOperation())
+    command => command.Owner.toString() === request.currentUser.id.toString() ? ok(command) : fail(new UnauthorizedOperation());

@@ -3,13 +3,14 @@ import express, { Express } from 'express';
 import { ExpressRouter, ExpressRouters } from './express-router';
 import { ExpressMiddleware, ExpressMiddlewares } from './express-middleware';
 import { ExpressConfigurationReader } from './express-config';
+import bodyParser from 'body-parser';
 
 const addMiddleware = (app: Express): ((middleware: ExpressMiddleware) => void) => (middleware: ExpressMiddleware) => app.use(middleware);
 const addRouter = (app: Express): ((router: ExpressRouter) => Express) => (router: ExpressRouter) => router(app);
 
 export const createServer = (configReader: ExpressConfigurationReader, routers: ExpressRouters, middlewares: ExpressMiddlewares) => {
     const server = express();
-    
+    server.use(bodyParser.json()); 
     server.set('port', configReader().ApiPort || 4000);
 
     middlewares.forEach(addMiddleware(server));
